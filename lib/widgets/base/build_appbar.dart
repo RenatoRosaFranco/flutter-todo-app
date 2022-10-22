@@ -20,10 +20,10 @@ class buildAppBar extends StatelessWidget {
                 size: 30
             ),
             SizedBox(
-              height: 40,
-              width: 40,
+              height: 50,
+              width: 50,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(80),
                 child: Image.asset('assets/images/avatar.jpeg'),
               ),
             )
