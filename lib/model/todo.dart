@@ -13,10 +13,10 @@ class ToDo {
     return [
       ToDo(id: '01', todoText: 'Morning Exercises', isDone: true),
       ToDo(id: '02', todoText: 'Buy Groceries', isDone: true),
-      ToDo(id: '03', todoText: 'Check Emails', isDone: true),
-      ToDo(id: '04', todoText: 'Team Meeting', isDone: true),
-      ToDo(id: '05', todoText: 'Work on mobile apps 2 hour', isDone: true),
-      ToDo(id: '06', todoText: 'Dinner with Jenny', isDone: true),
+      ToDo(id: '03', todoText: 'Check Emails'),
+      ToDo(id: '04', todoText: 'Team Meeting'),
+      ToDo(id: '05', todoText: 'Work on mobile apps 2 hour'),
+      ToDo(id: '06', todoText: 'Dinner with Jenny'),
     ];
   }
 }
