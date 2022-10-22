@@ -4,7 +4,6 @@ import 'package:news_app/widgets/todo_item.dart';
 import 'package:news_app/model/todo.dart';
 
 import 'package:news_app/widgets/base/build_appbar.dart';
-import 'package:news_app/widgets/base/search_box.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -15,7 +14,32 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final todosList = ToDo.todoList();
+  List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
+
+  @override
+  void initState() {
+    _foundToDo = todosList;
+    super.initState();
+  }
+
+  void _runFilter(String enteredKeyword) {
+    List<ToDo> results = [];
+
+    if (enteredKeyword.isEmpty) {
+      results = todosList;
+    } else {
+      results = todosList
+          .where((item) => item.todoText!
+            .toLowerCase()
+            .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+
+    setState(() {
+      _foundToDo = results;
+    });
+  }
 
   void _handleTodoChange(ToDo todo) {
     setState(() {
@@ -43,6 +67,36 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Widget searchBox() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20)
+      ),
+      child: TextField(
+        onChanged: (value) =>  _runFilter(value),
+        decoration: const InputDecoration(
+            contentPadding: EdgeInsets.all(0),
+            prefixIcon: Icon(
+              Icons.search,
+              color: tdBlack,
+              size: 20,
+            ),
+            prefixIconConstraints: BoxConstraints(
+                maxHeight: 20,
+                minWidth: 25
+            ),
+            border: InputBorder.none,
+            hintText: 'Search',
+            hintStyle: TextStyle(
+                color: tdGrey
+            )
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +114,7 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               children: [
-                const searchBox(),
+                searchBox(),
                 Expanded(
                   child: ListView(
                     children: [
@@ -78,7 +132,7 @@ class _HomeState extends State<Home> {
                         )
                       ),
 
-                      for ( ToDo todoo in todosList)
+                      for ( ToDo todoo in _foundToDo.reversed)
                         ToDoItem(
                             todo: todoo,
                             onTodoChanged: _handleTodoChange,
