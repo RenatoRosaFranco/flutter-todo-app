@@ -4,15 +4,24 @@ import 'package:news_app/model/todo.dart';
 
 class ToDoItem extends StatelessWidget {
   final ToDo todo;
+  final onTodoChanged;
+  final onDeleteItem;
 
-  const ToDoItem({Key? key, required this.todo}) : super(key: key);
+  const ToDoItem({
+    Key? key,
+    required this.todo,
+    required this.onTodoChanged,
+    required this.onDeleteItem,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: ListTile(
-        onTap: () { click(); },
+        onTap: () {
+          onTodoChanged(todo);
+        },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -44,14 +53,10 @@ class ToDoItem extends StatelessWidget {
             color: Colors.white,
             iconSize: 18,
             icon: const Icon(Icons.delete),
-            onPressed: () { click(); },
+            onPressed: () { onDeleteItem(todo.id); },
           ),
         ),
       ),
     );
   }
-}
-
-void click() {
-  print('Clicked on me!');
 }

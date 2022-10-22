@@ -6,10 +6,42 @@ import 'package:news_app/model/todo.dart';
 import 'package:news_app/widgets/base/build_appbar.dart';
 import 'package:news_app/widgets/base/search_box.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final todosList = ToDo.todoList();
+  final _todoController = TextEditingController();
+
+  void _handleTodoChange(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
+
+  void _deleteTodoItem(String id) {
+    setState(() {
+      todosList.removeWhere((item) => item.id == id);
+    });
+  }
+
+  void _addTodoItem(String toDo) {
+    setState(() {
+      todosList.add(
+          ToDo(
+              id: DateTime
+                  .now()
+                  .millisecondsSinceEpoch
+                  .toString(),
+              todoText: toDo
+          )
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +79,11 @@ class Home extends StatelessWidget {
                       ),
 
                       for ( ToDo todoo in todosList)
-                        ToDoItem(todo: todoo),
+                        ToDoItem(
+                            todo: todoo,
+                            onTodoChanged: _handleTodoChange,
+                            onDeleteItem: _deleteTodoItem,
+                        ),
                     ],
                   )
                 )
@@ -65,7 +101,7 @@ class Home extends StatelessWidget {
                         right: 20,
                         left: 20
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         boxShadow: const [BoxShadow(
@@ -76,8 +112,9 @@ class Home extends StatelessWidget {
                         ),],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const TextField(
-                        decoration: InputDecoration(
+                      child: TextField(
+                        controller: _todoController,
+                        decoration: const InputDecoration(
                           hintText: 'Add a new todo item',
                           border: InputBorder.none
                         )
@@ -90,10 +127,12 @@ class Home extends StatelessWidget {
                         right: 20
                     ),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _addTodoItem(_todoController.text);
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: tdBlue,
-                        minimumSize: Size(60, 60),
+                        minimumSize: const Size(60, 60),
                         elevation: 10
                       ),
                       child: const Text('+',
