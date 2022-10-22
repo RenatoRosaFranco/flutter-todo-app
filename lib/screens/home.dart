@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/constants/colors.dart';
+import 'package:news_app/widgets/todo_item.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,7 +20,31 @@ class Home extends StatelessWidget {
           ),
           child: Column(
             children: [
-              searchBox()
+              const searchBox(),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(
+                          top: 50,
+                          bottom: 20
+                      ),
+                      child: const Text(
+                          'All ToDos',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500
+                          )
+                      )
+                    ),
+                    ToDoItem(),
+                    ToDoItem(),
+                    ToDoItem(),
+                    ToDoItem(),
+                    ToDoItem()
+                  ],
+                )
+              )
             ],
           ),
         )
