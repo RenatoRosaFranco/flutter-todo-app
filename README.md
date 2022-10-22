@@ -1,6 +1,6 @@
-# news_app
+# TODO APP
 
-A new Flutter project.
+This is a basic todo app created with dart base framework flutter for mobile.
 
 ## Getting Started
 
